@@ -1,0 +1,282 @@
+{
+  "compatibilityLevel": 1550,
+  "model": {
+    "annotations": [
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      },
+      {
+        "name": "PBIDesktopVersion",
+        "value": "2.127.1327.0 (24.03)"
+      },
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"netflix_titles\",\"Errors in netflix_titles\"]"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "en-US",
+    "cultures": [
+      {
+        "name": "en-US",
+        "linguisticMetadata": {
+          "content": {
+            "Language": "en-US",
+            "Version": "1.0.0"
+          },
+          "contentType": "json"
+        }
+      }
+    ],
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "expressions": [
+      {
+        "name": "Errors in netflix_titles",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "Source = netflix_titles,",
+          "  #\"Detected Type Mismatches\" = let",
+          "    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),",
+          "    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),",
+          "    fieldNames = Record.FieldNames(recordTypeFields),",
+          "    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),",
+          "    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = \"The type of the value does not match the type of the column.\", Detail = v], fieldTypes{i}})",
+          "in",
+          "    Table.TransformColumns(Source, pairs),",
+          "    #\"Replaced Value\" = Table.ReplaceValue(#\"Detected Type Mismatches\",\"\",\"Unknown\",Replacer.ReplaceValue,{\"director\"}),",
+          "    #\"Replaced Value1\" = Table.ReplaceValue(#\"Replaced Value\",\"\",\"Unknown\",Replacer.ReplaceValue,{\"cast\"}),",
+          "    #\"Replaced Value2\" = Table.ReplaceValue(#\"Replaced Value1\",\"\",\"Unknown\",Replacer.ReplaceValue,{\"country\"})",
+          "in",
+          "    #\"Replaced Value2\""
+        ],
+        "kind": "m",
+        "lineageTag": "32c06ed6-127a-4811-a09a-c60a89b22efd",
+        "queryGroup": "Query Errors - 8/4/2025 10:09:57 PM"
+      }
+    ],
+    "queryGroups": [
+      {
+        "annotations": [
+          {
+            "name": "PBI_QueryGroupOrder",
+            "value": "0"
+          }
+        ],
+        "description": "Errors in queries that were loaded on 8/4/2025 10:09:57 PM.",
+        "folder": "Query Errors - 8/4/2025 10:09:57 PM"
+      }
+    ],
+    "sourceQueryCulture": "en-US",
+    "tables": [
+      {
+        "name": "netflix_titles",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "show_id",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "9b279314-5392-4580-a5ba-a7821783498c",
+            "sourceColumn": "show_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "type",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "f93d4133-d10a-4c63-84d5-fa6a594a2019",
+            "sourceColumn": "type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "title",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "0028f7a6-b967-4408-9663-560d0a272abb",
+            "sourceColumn": "title",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "director",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "952f328e-a819-4f43-b606-d88b23593f26",
+            "sourceColumn": "director",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "cast",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "5d2b6b5a-1418-4007-9e5f-ed5b3957d41f",
+            "sourceColumn": "cast",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "country",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "ae24df90-42a6-4b04-b2bf-7235b45b455b",
+            "sourceColumn": "country",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "date_added",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "cd88468c-6b7f-464f-8f7a-e8370052e841",
+            "sourceColumn": "date_added",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "release_year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "90d4c3e3-326b-42c4-859e-88cb4b89fa58",
+            "sourceColumn": "release_year",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "rating",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "c7cd4d48-387e-4599-ab04-be4d09372688",
+            "sourceColumn": "rating",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "duration",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "3d8c1bfe-d9ca-4c36-832d-49e28aa7a6f9",
+            "sourceColumn": "duration",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "listed_in",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "37fd49fb-a1db-4465-8f9c-7b1728c37244",
+            "sourceColumn": "listed_in",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "description",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d119f8fb-7673-4daa-822c-1c99ff0a097a",
+            "sourceColumn": "description",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "0240a62f-792d-4a07-b483-7e59e01c7cdd",
+        "partitions": [
+          {
+            "name": "netflix_titles",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"F:\\POWER-BI-CORSE\\Chandupbi\\netflix_titles.csv\\netflix_titles.csv\"),[Delimiter=\",\", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"show_id\", type text}, {\"type\", type text}, {\"title\", type text}, {\"director\", type text}, {\"cast\", type text}, {\"country\", type text}, {\"date_added\", type date}, {\"release_year\", Int64.Type}, {\"rating\", type text}, {\"duration\", type text}, {\"listed_in\", type text}, {\"description\", type text}})",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
